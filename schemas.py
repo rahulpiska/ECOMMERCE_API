@@ -26,6 +26,9 @@ class UserResponse(BaseModel):
 class CategoryCreate(BaseModel):
     name: str
 
+class CategoryUpdate(BaseModel):
+    name: str
+
 class CategoryResponse(BaseModel):
     id: int
     name: str
