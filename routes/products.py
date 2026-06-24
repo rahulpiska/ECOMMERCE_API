@@ -157,13 +157,13 @@ def delete_product(id:int,
     if product.cart_items:
         raise HTTPException(
             status_code=400,
-            detail="Products in Carts"
+            detail="Product exists in Carts"
         )
     
     if product.order_items:
         raise HTTPException(
             status_code=400,
-            detail="Products has orders"
+            detail="Product exists in orders"
         )
     
     db.delete(product)
