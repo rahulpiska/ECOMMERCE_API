@@ -1,0 +1,71 @@
+from pydantic import BaseModel, EmailStr, ConfigDict
+
+from datetime import datetime
+
+class UserCreate(BaseModel):
+    name: str
+    email: EmailStr
+    password: str
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+class UserResponse(BaseModel):
+    id: int
+    name: str
+    email: EmailStr
+    created_at: datetime
+
+    model_config= ConfigDict(
+        from_attributes=True
+    )
+
+#---------------------------------------------
+
+class CategoryCreate(BaseModel):
+    name: str
+
+class CategoryResponse(BaseModel):
+    id: int
+    name: str
+    created_at: datetime
+
+    model_config= ConfigDict(
+        from_attributes=True
+    )
+
+#---------------------------------------------------
+
+class ProductCreate(BaseModel):
+    name: str
+    description: str
+    price: float
+    stock_quantity: int
+    category_id: int
+
+class ProductUpdate(BaseModel):
+    name: str | None=None
+    description: str | None=None
+    price: float | None=None
+    stock_quantity: int | None=None
+    category_id: int | None=None
+
+class ProductResponse(BaseModel):
+    id: int
+    name: str
+    description: str
+    price: float
+    stock_quantity: int
+    category_id: int
+    created_at: datetime
+
+    model_config= ConfigDict(
+        from_attributes=True
+    )
+
+
+
+
+
+
