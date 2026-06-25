@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, ConfigDict
+from pydantic import BaseModel, EmailStr, ConfigDict, Field
 
 from datetime import datetime
 
@@ -68,7 +68,37 @@ class ProductResponse(BaseModel):
     )
 
 
+class CartCreate(BaseModel):
+    product_id: int
+    quantity: int = Field(default=1, gt=0)
 
+class CartResponse(BaseModel):
+    id: int
+    cart_id: int
+    product_id: int
+    quantity: int
 
+    model_config= ConfigDict(
+        from_attributes=True
+    )
 
+class CartItemResponse(BaseModel):
+    cart_item_id: int
+    product_id: int
+    product_name: str
+    description: str
+    price: float
+    quantity: int
+    stock_available: int
+    subtotal: float 
 
+class CartSummaryResponse(BaseModel):
+    items: list[CartItemResponse]
+    total_amount: float
+
+    model_config= ConfigDict(
+        from_attributes=True
+    )
+
+class CartUpdate(BaseModel):
+    quantity: int
