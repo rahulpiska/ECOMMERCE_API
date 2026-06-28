@@ -1,5 +1,10 @@
 # 🛒 E-Commerce REST API
 
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-REST-green)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-ORM-red)
+![MySQL](https://img.shields.io/badge/Database-MySQL-orange)
+
 A RESTful E-Commerce Backend API built using **FastAPI**, **SQLAlchemy**, **MySQL**, and **JWT Authentication**.
 
 This project simulates the backend of an online shopping application where users can browse products, manage a shopping cart, place orders, and administrators can manage products and categories.
@@ -185,7 +190,7 @@ http://127.0.0.1:8000/docs
 # 📂 Project Structure
 
 ```
-E_COMMERCE_API/
+ECOMMERCE_API/
 │
 ├── alembic/
 ├── routers/
