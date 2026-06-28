@@ -1,4 +1,4 @@
-from sqlalchemy import Column,String,ForeignKey,Integer,Float, DateTime
+from sqlalchemy import Column,String,ForeignKey,Integer,Float, DateTime, Boolean
 
 from sqlalchemy.orm import relationship
 
@@ -15,6 +15,7 @@ class User(Base):
     name = Column(String(100),nullable=False)
     email = Column(String(225),unique=True,nullable=False)
     password = Column(String(225),nullable=False)
+    is_admin = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     cart = relationship(

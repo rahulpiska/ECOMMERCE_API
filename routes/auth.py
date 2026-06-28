@@ -3,11 +3,13 @@ from sqlalchemy.orm import Session
 from database import get_db
 from utils import verify_password, create_access_token, get_current_user
 from models import User
+from fastapi.security import OAuth2PasswordRequestForm
 
 from schemas import(
     UserLogin,
     UserResponse
 )
+
 
 router = APIRouter(
     prefix="/auth",
@@ -15,10 +17,10 @@ router = APIRouter(
 )
 
 @router.post('/login')
-def user_login(user_login:UserLogin,
+def user_login(form_data: OAuth2PasswordRequestForm = Depends(),
                db:Session= Depends(get_db)):
     
-    user = db.query(User).filter(User.email == user_login.email).first()
+    user = db.query(User).filter(User.email == form_data.username).first()
 
     if not user:
         raise HTTPException(
@@ -27,7 +29,7 @@ def user_login(user_login:UserLogin,
         )
     
     check_password = verify_password(
-        user_login.password,
+        form_data.password,
         user.password
     )
 

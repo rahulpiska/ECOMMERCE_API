@@ -1,7 +1,8 @@
 from fastapi import Depends, APIRouter, HTTPException
 from sqlalchemy.orm import Session
 from database import get_db
-from models import Category, Product
+from models import Category, Product, User
+from utils import get_current_admin
 
 from schemas import(
     ProductCreate,
@@ -16,7 +17,9 @@ router = APIRouter(
 
 @router.post("",response_model=ProductResponse)
 def create_product(create_product: ProductCreate,
+                   admin: User = Depends(get_current_admin),
                    db:Session= Depends(get_db)):
+
     
     category = db.query(Category).filter(Category.id == create_product.category_id).first()
 
@@ -51,22 +54,53 @@ def create_product(create_product: ProductCreate,
     db.refresh(new_product)
 
     return new_product
-    
+
 #-----------------------------------------------------------------------
 
-@router.get("",response_model=list[ProductResponse])
-def get_all_products(db:Session= Depends(get_db)):
+@router.get("",response_model=list[ProductResponse]) 
+def get_all_products(
+    category: str | None = None,
+    search: str | None = None,
+    min_price: float | None = None,
+    max_price: float | None = None,
+    db:Session= Depends(get_db)):
 
-    return (
-        db.query(Product).all()
-    )
+    query = db.query(Product)
+
+    if category :
+        category_obj= (
+            db.query(Category)
+            .filter(Category.name.ilike(category))
+            .first()     
+        ) 
+        if not category_obj: 
+            raise HTTPException(
+                 status_code=404, 
+                 detail="Category not exists")
+        
+        query = query.filter(Product.category_id == category_obj.id)
+        
+    if search:
+        query = (
+            query
+            .filter(Product.name.ilike(f"%{search}%"))
+        )
+
+    if min_price is not None:
+        query = query.filter(Product.price >= min_price)
+
+    if max_price is not None:
+       query = query.filter(Product.price <= max_price)
+
+    return query.all()
+    
 
 #--------------------------------------------------------------------------
 
 @router.get("/{id}",response_model=ProductResponse)
 def get_product_by_id(id:int,
                       db:Session= Depends(get_db)):
-    
+
     product = db.query(Product).filter(Product.id == id).first()
 
     if not product:
@@ -81,8 +115,9 @@ def get_product_by_id(id:int,
 @router.put("/{id}",response_model=ProductResponse)
 def update_product(id:int,
                    update_product:ProductUpdate,
+                   admin: User = Depends(get_current_admin),
                    db:Session= Depends(get_db)):
-    
+
     product = db.query(Product).filter(Product.id == id).first()
 
     if not product:
@@ -144,8 +179,10 @@ def update_product(id:int,
 
 @router.delete("/{id}")
 def delete_product(id:int,
+                   admin: User = Depends(get_current_admin),
                    db:Session= Depends(get_db)):
     
+
     product = db.query(Product).filter(Product.id == id).first()
 
     if not product:

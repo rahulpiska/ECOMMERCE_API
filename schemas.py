@@ -15,6 +15,7 @@ class UserResponse(BaseModel):
     id: int
     name: str
     email: EmailStr
+    is_admin: bool
     created_at: datetime
 
     model_config= ConfigDict(
@@ -67,6 +68,7 @@ class ProductResponse(BaseModel):
         from_attributes=True
     )
 
+#-------------------------------------------
 
 class CartCreate(BaseModel):
     product_id: int
@@ -102,3 +104,29 @@ class CartSummaryResponse(BaseModel):
 
 class CartUpdate(BaseModel):
     quantity: int
+
+#-------------------------------------------
+
+class OrderResponse(BaseModel):
+    id:int
+    total_amount: float
+    status: str
+    created_at: datetime
+
+    model_config= ConfigDict(
+        from_attributes=True
+    )
+
+class OrderItemResponse(BaseModel):
+    product_name: str
+    price: float
+    quantity: int
+    subtotal: float
+
+
+class OrderDetailsResponse(BaseModel):
+    order_id: int
+    status: str
+    total_amount: float
+    created_at: datetime
+    items: list[OrderItemResponse]

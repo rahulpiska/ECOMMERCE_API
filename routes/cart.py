@@ -4,7 +4,6 @@ from database import get_db
 from schemas import (
     CartCreate,
     CartResponse,
-    CartItemResponse,
     CartSummaryResponse,
     CartUpdate
 )
@@ -80,6 +79,7 @@ def create_cart(create_cart: CartCreate,
 
     
 #---------------------------------------------------------------------------
+
 @router.get("",response_model=CartSummaryResponse)
 def get_cart_items(current_user: User = Depends(get_current_user),
                    db:Session = Depends(get_db)):
@@ -203,3 +203,5 @@ def delete_cart_item(cart_item_id: int,
     return (
         {"message":"Cart item deleted successfully"}
     )
+
+    
