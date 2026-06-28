@@ -112,6 +112,76 @@ GET /products?category=Shoes&search=nike&min_price=1000&max_price=5000
 
 ---
 
+
+# ⚙️ Installation & Setup
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/<your-github-username>/<repository-name>.git
+cd <repository-name>
+```
+
+### 2. Create a virtual environment
+
+```bash
+python -m venv venv
+```
+
+### 3. Activate the virtual environment
+
+**Windows**
+
+```bash
+venv\Scripts\activate
+```
+
+**Linux / macOS**
+
+```bash
+source venv/bin/activate
+```
+
+### 4. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 5. Configure environment variables
+
+Create a `.env` file in the project root.
+
+```env
+DATABASE_URL=mysql+pymysql://username:password@localhost/ecommerce_db
+
+SECRET_KEY=your_secret_key
+
+ALGORITHM=HS256
+
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+```
+
+### 6. Apply database migrations
+
+```bash
+alembic upgrade head
+```
+
+### 7. Start the application
+
+```bash
+uvicorn main:app --reload
+```
+
+### 8. Open Swagger UI
+
+```
+http://127.0.0.1:8000/docs
+```
+
+---
+
 # 📂 Project Structure
 
 ```
