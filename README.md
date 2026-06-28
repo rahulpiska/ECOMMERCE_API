@@ -118,8 +118,8 @@ GET /products?category=Shoes&search=nike&min_price=1000&max_price=5000
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<your-github-username>/<repository-name>.git
-cd <repository-name>
+git clone https://github.com/rahulpiska/ECOMMERCE_API.git
+cd ECOMMERCE_API
 ```
 
 ### 2. Create a virtual environment
